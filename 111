@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Day 1 · 专属小惊喜</title>
+    <style>
+        body {
+            background: linear-gradient(120deg, #ffdde1, #ee9ca7);
+            font-family: "微软雅黑", sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            width: 360px;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            text-align: center;
+        }
+        h1 {
+            color: #ff5a7a;
+        }
+        .date {
+            color: #999;
+            margin-bottom: 15px;
+        }
+        .text {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #333;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h1>❤️ Day 1 专属惊喜</h1>
+    <div class="date">今天是我们的小一天</div>
+    <div class="text">
+        如果世界是一行代码，<br>
+        那你一定是我永远不想删除的那一行。<br><br>
+        今天没有什么特别的事，<br>
+        但因为是你，<br>
+        一切都变得特别了。
+    </div>
+    <footer>
+        由我亲手写给你 🌙
+    </footer>
+</div>
+</body>
+</html>
