@@ -1,72 +1,214 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <title>今日专属情话</title>
-    <style>
-        body {
-            background: linear-gradient(120deg, #ff9a9e, #fad0c4);
-            font-family: "微软雅黑";
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
+import streamlit as st
+import random
+from datetime import date, datetime
+import time
 
-        .card {
-            background: white;
-            padding: 30px;
-            border-radius: 16px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
+# --- 1. 页面基础配置 ---
+st.set_page_config(
+    page_title="💖 我们的专属空间", 
+    page_icon="💑",
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-        button {
-            background: #ff5a79;
-            border: none;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        p {
-            margin-top: 20px;
-            font-size: 18px;
-            color: #333;
-        }
-    </style>
-</head>
-<body>
-
-<div class="card">
-    <h2>💗 今日专属情话</h2>
-    <button onclick="showLove()">查看今日情话</button>
-    <p id="text">等你点我</p>
-</div>
-
-<script>
-    const loves = [
-        "今天的我很想你。",
-        "世界很吵，但你很重要。",
-        "月亮偷偷替我想你。",
-        "你是我今天最开心的事。",
-        "晚安之前，还是你。",
-        "风很温柔，因为你在想我。",
-        "人来人往，我只看见你。"
-    ];
-
-    function showLove() {
-        const today = new Date();
-        // 把“天数”作为固定种子
-        const days = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
-        const index = days % loves.length;
-        document.getElementById("text").innerText = loves[index];
+# --- 2. 高级 CSS 样式 ---
+st.markdown("""
+<style>
+    /* 全局背景渐变 */
+    .stApp {
+        background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
     }
-</script>
+    
+    /* 卡片样式 */
+    .css-card {
+        border-radius: 20px;
+        padding: 20px;
+        background-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    /* 倒计时数字 */
+    .big-number {
+        font-size: 50px;
+        color: #FF6B6B;
+        font-weight: 800;
+        font-family: 'Arial';
+    }
+</style>
+""", unsafe_allow_html=True)
 
-</body>
-</html>
+# --- 3. 侧边栏：配置与纪念日 ---
+with st.sidebar:
+    # 这里的图片链接可以换成你们的头像
+    st.image("https://cdn-icons-png.flaticon.com/512/3237/3237472.png", width=100) 
+    st.title("💑 关于我们")
+    
+    # 🔥 请修改这里的日期 🔥
+    start_date = date(2023, 5, 20) 
+    today = date.today()
+    days_together = (today - start_date).days
+    
+    st.markdown(f"我们已经相爱了：")
+    st.markdown(f"<div class='big-number'>{days_together} 天</div>", unsafe_allow_html=True)
+    st.markdown("---")
+    st.write("Database Version: 100-Quotes-Update")
+
+# --- 4. 你的百句情话数据库 (已格式化) ---
+love_quotes = [
+    "今天的你也比全糖奶茶还要甜。🥤",
+    "想和你去吃火锅，现在，立刻，马上。🍲",
+    "你的笑容是我代码里唯一的 Bug。🐛",
+    "Error 404：找不到不喜欢你的理由。🚫",
+    "你就是我的 import favorite。💻",
+    "今天天气很好，但也比不上见到你。☀️",
+    "遇见你，是所有算法里最优的解。❤️",
+    "你一出现，我的世界就自动高亮了。✨",
+    "如果思念有颜色，那一定是你的样子。🎨",
+    "我的快乐函数，参数只有你。😊",
+    "想把你写进 README，一眼就能看到。📘",
+    "你是我每天都想运行的程序。▶️",
+    "没有你，生活就像少了分号。；",
+    "世界那么大，我却只想和你并肩走。🌍",
+    "你一笑，我的 CPU 就开始过热。🔥",
+    "心跳的节奏，刚好和你同步。💓",
+    "如果爱有版本号，你永远是最新稳定版。📦",
+    "你出现的那天，我的人生成功编译。✔️",
+    "和你在一起，连时间都变温柔了。⏰",
+    "今天的风，也偷偷学你温柔。🍃",
+    "想把所有的温柔都留给你。🌸",
+    "你是我每天都想点击的那个链接。🔗",
+    "我的世界，因为你而不再空指针。🧡",
+    "喜欢你，是我最坚定的长期任务。📌",
+    "你一靠近，我就自动心动。💗",
+    "世界再吵，想到你就安静了。🌙",
+    "你是我生活里的小确幸。🍀",
+    "如果星星会说话，它们也会夸你。⭐",
+    "今天的好心情，是你赞助的。🎁",
+    "你在，我就满格电量。🔋",
+    "你是我计划外的惊喜。🎉",
+    "想把日子过成和你有关的样子。📆",
+    "你出现的概率，比奇迹还高。🔢",
+    "世界很复杂，但喜欢你很简单。🧩",
+    "我的理想生活，有你参与。🏡",
+    "今天也在偷偷想你。🤍",
+    "你一眨眼，我就乱了心跳。😉",
+    "喜欢你这件事，没有撤回键。🔒",
+    "你是我最偏爱的选项。✅",
+    "连夜晚，都在为你亮灯。💡",
+    "和你在一起，连空气都是甜的。🍬",
+    "你是我生活里的隐藏彩蛋。🥚",
+    "想把烦恼都交给你抱走。🧸",
+    "有你的地方，就是主页面。🏠",
+    "你一出现，我就自动微笑。🙂",
+    "喜欢你，不需要理由说明。📄",
+    "我的世界，因为你而有意义。🌈",
+    "你是我每天最期待的消息。📩",
+    "想和你一起浪费时间。⏳",
+    "你让平凡的日子发光。✨",
+    "如果爱是代码，你是核心逻辑。🧠",
+    "今天也在为你心动。💘",
+    "世界再大，也装不下我对你的喜欢。🌍",
+    "你是我唯一不想关闭的窗口。🪟",
+    "想和你一起看很多很多日落。🌇",
+    "你一笑，世界就变亮了。💫",
+    "喜欢你，是每天的固定流程。🔁",
+    "你是我生活里的温柔变量。🎈",
+    "和你在一起，时间过得特别快。⏩",
+    "你是我最想分享的人。📤",
+    "我的快乐，被你成功调用。📞",
+    "想把未来写成和你有关的故事。📖",
+    "你是我最安心的存在。🫶",
+    "喜欢你，是我最正确的选择。✔️",
+    "今天的心情，被你点亮。💡",
+    "你一靠近，我就开始期待明天。🌅",
+    "和你在一起，世界刚刚好。🌍",
+    "你是我生活里的光。🌟",
+    "想把温柔都存进你怀里。🤍",
+    "你让日常变得值得记录。📝",
+    "你是我不想删除的历史记录。🕰️",
+    "喜欢你，像呼吸一样自然。🌬️",
+    "今天的快乐，来源是你。😊",
+    "你是我生活里的高光时刻。🎬",
+    "世界很忙，但我会为你停一下。⏸️",
+    "想把所有好天气都留给你。☀️",
+    "你一出现，烦恼就下线了。🚪",
+    "喜欢你，是我的默认设置。⚙️",
+    "你是我心里最亮的那颗星。⭐",
+    "和你在一起，一切都值得。💞",
+    "你是我每天的小期待。🎀",
+    "想和你一起慢慢变老。🕊️",
+    "你让世界变得柔软。🧸",
+    "我的好心情，因你而生。🌱",
+    "喜欢你，没有暂停键。▶️",
+    "你是我生活里的惊喜更新。🔄",
+    "想和你一起吃很多顿饭。🍜",
+    "你是我最想奔赴的方向。🧭",
+    "今天也想对你温柔一点。🌷",
+    "你让平凡的一天变得特别。✨",
+    "我的世界，因为你而完整。🧩",
+    "喜欢你，是长期有效的计划。📅",
+    "你是我心里的小太阳。🌞",
+    "和你在一起，我很安心。🤍",
+    "你是我生活里的小奇迹。✨",
+    "今天的快乐，也有你一份。🎈",
+    "想把所有美好都和你分享。🎁",
+    "你是我最不想跳过的章节。📖",
+    "喜欢你，是我最浪漫的坚持。💗",
+    "有你在，世界就很好。🌍"
+]
+
+# --- 5. 主界面布局 ---
+st.title("早上好！我的专属 VIP ☀️")
+st.caption(f"今天是 {today.strftime('%Y年%m月%d日')}，别忘了今天的任务是想我。")
+
+col1, col2 = st.columns([2, 1])
+
+with col1:
+    st.markdown("### 💌 今日份甜份补给")
+    st.markdown('<div class="css-card">', unsafe_allow_html=True)
+    
+    if st.button("✨ 提取今日情话 ✨", use_container_width=True):
+        with st.spinner("正在从云端下载爱意..."):
+            time.sleep(0.5)
+        
+        # 核心逻辑：从100句中随机取一句
+        quote = random.choice(love_quotes)
+        
+        st.markdown(f"## “{quote}”")
+        st.balloons()
+    else:
+        st.write("（点击上方按钮解锁惊喜）")
+        
+    st.markdown('</div>', unsafe_allow_html=True)
+
+with col2:
+    st.markdown("### 🤔 你今天心情怎么样？")
+    mood = st.radio("Pick one:", ["开心 😄", "一般 😐", "想你 🥺", "生气 😠"], label_visibility="collapsed")
+    
+    if st.button("告诉他", type="secondary"):
+        if mood == "开心 😄":
+            st.success("太棒了！要把这份开心保持一整天哦！")
+            st.snow()
+        elif mood == "一般 😐":
+            st.info("抱抱！晚上带你去吃好吃的提提神！")
+        elif mood == "想你 🥺":
+            st.warning("我也是！正在飞奔向你的路上（精神上）！🏃‍♂️")
+        elif mood == "生气 😠":
+            st.error("警报！警报！正在启动「哄人模式」... 对不起我错啦！😭")
+
+# --- 6. 底部彩蛋 ---
+st.markdown("---")
+with st.expander("🔐 只有你能打开的秘密通道"):
+    secret_code = st.text_input("请输入除了我们没人知道的暗号：", type="password")
+    
+    # 🔥 请修改这里的暗号 🔥
+    if secret_code == "520": 
+        st.success("暗号正确！解锁隐藏惊喜！")
+        # 这里换成你的照片链接
+        st.image("https://images.unsplash.com/photo-1518199266791-5375a83190b7", caption="这是我们最喜欢的一张合照")
+    elif secret_code:
+        st.error("暗号错误，是不是不爱我了？😤")
+
+st.markdown("<br><br><div style='text-align: center; color: grey;'>Developed with Python & Streamlit 🐍</div>", unsafe_allow_html=True)
