@@ -2,58 +2,71 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <title>Day 1 · 专属小惊喜</title>
+    <title>今日专属情话</title>
     <style>
         body {
-            background: linear-gradient(120deg, #ffdde1, #ee9ca7);
-            font-family: "微软雅黑", sans-serif;
+            background: linear-gradient(120deg, #ff9a9e, #fad0c4);
+            font-family: "微软雅黑";
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
         }
+
         .card {
             background: white;
             padding: 30px;
-            border-radius: 20px;
-            width: 360px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+            border-radius: 16px;
             text-align: center;
+            width: 300px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
         }
-        h1 {
-            color: #ff5a7a;
-        }
-        .date {
-            color: #999;
-            margin-bottom: 15px;
-        }
-        .text {
+
+        button {
+            background: #ff5a79;
+            border: none;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 20px;
+            cursor: pointer;
             font-size: 16px;
-            line-height: 1.8;
-            color: #333;
         }
-        footer {
+
+        p {
             margin-top: 20px;
-            font-size: 12px;
-            color: #aaa;
+            font-size: 18px;
+            color: #333;
         }
     </style>
 </head>
 <body>
+
 <div class="card">
-    <h1>❤️ Day 1 专属惊喜</h1>
-    <div class="date">今天是我们的小一天</div>
-    <div class="text">
-        如果世界是一行代码，<br>
-        那你一定是我永远不想删除的那一行。<br><br>
-        今天没有什么特别的事，<br>
-        但因为是你，<br>
-        一切都变得特别了。
-    </div>
-    <footer>
-        由我亲手写给你 🌙
-    </footer>
+    <h2>💗 今日专属情话</h2>
+    <button onclick="showLove()">查看今日情话</button>
+    <p id="text">等你点我</p>
 </div>
+
+<script>
+    const loves = [
+        "今天的我很想你。",
+        "世界很吵，但你很重要。",
+        "月亮偷偷替我想你。",
+        "你是我今天最开心的事。",
+        "晚安之前，还是你。",
+        "风很温柔，因为你在想我。",
+        "人来人往，我只看见你。"
+    ];
+
+    function showLove() {
+        const today = new Date();
+        // 把“天数”作为固定种子
+        const days = Math.floor(today.getTime() / (1000 * 60 * 60 * 24));
+        const index = days % loves.length;
+        document.getElementById("text").innerText = loves[index];
+    }
+</script>
+
 </body>
 </html>
