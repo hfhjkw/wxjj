@@ -1,143 +1,256 @@
-import streamlit as st
-import random
-from datetime import date
-
-# --- 页面基础配置 ---
-st.set_page_config(
-    page_title="💖 我们的专属空间",
-    page_icon="💑",
-    layout="wide",
-    initial_sidebar_state="expanded"
-)
-
-# --- 背景图列表 ---
-cute_backgrounds = [
-    "https://images.unsplash.com/photo-1606761569183-dc44d51d247d?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1616482680981-0b6f1e111a7b?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1612851647801-21d5d35c6a99?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1602810316803-67cc408b4455?auto=format&fit=crop&w=1920&q=80",
-    "https://images.unsplash.com/photo-1607698201221-89f1c8174a8d?auto=format&fit=crop&w=1920&q=80"
-]
-
-today = date.today()
-random.seed(today.toordinal())
-bg_url = random.choice(cute_backgrounds)
-
-# --- 高级 CSS + HTML 布局 ---
-st.markdown(f"""
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💖 我们的专属空间</title>
 <style>
-/* 背景 */
-.stApp {{
-    background-image: url('{bg_url}');
-    background-size: cover;
-    background-position: center;
-}}
-
-/* 页面整体卡片样式 */
-.card {{
-    max-width: 700px;
-    margin: 30px auto;
-    padding: 30px;
-    border-radius: 20px;
-    background-color: rgba(255,255,255,0.85);
-    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-    text-align: center;
-    font-family: 'Arial', sans-serif;
-}}
-
-/* 今日情话样式 */
-.quote {{
-    font-size: 24px;
-    font-weight: bold;
-    color: #FF6B6B;
-    line-height: 1.6;
-    margin-top: 20px;
-}}
-
-/* 心情反馈样式 */
-.mood {{
-    margin-top: 20px;
-    font-size: 20px;
-}}
-
-/* 倒计时数字 */
-.big-number {{
-    font-size: 50px;
-    color: #FF6B6B;
-    font-weight: 800;
-}}
-
-/* 底部文字 */
-.footer {{
-    text-align: center;
-    color: grey;
-    margin-top: 50px;
-}}
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(to right, #ffecd2 0%, #fcb69f 100%);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .sidebar {
+        width: 100%;
+        max-width: 300px;
+        text-align: center;
+        margin-top: 20px;
+        background-color: rgba(255,255,255,0.85);
+        padding: 20px;
+        border-radius: 20px;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    .big-number {
+        font-size: 50px;
+        color: #FF6B6B;
+        font-weight: 800;
+        margin: 10px 0;
+    }
+    .card {
+        max-width: 700px;
+        width: 90%;
+        background-color: rgba(255,255,255,0.85);
+        border-radius: 20px;
+        padding: 20px;
+        margin: 20px 0;
+        text-align: center;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+    button {
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: bold;
+        border-radius: 10px;
+        border: none;
+        background-color: #FF6B6B;
+        color: white;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    button:hover {
+        background-color: #ff4b4b;
+    }
+    .footer {
+        text-align: center;
+        color: grey;
+        margin: 50px 0;
+    }
+    .hidden-img {
+        max-width: 80%;
+        border-radius: 15px;
+        margin-top: 10px;
+    }
 </style>
-""", unsafe_allow_html=True)
+</head>
+<body>
 
-# --- 侧边栏纪念日 ---
-with st.sidebar:
-    st.title("💑 关于我们")
-    start_date = date(2023, 5, 20)
-    days_together = (today - start_date).days
-    st.markdown("我们已经相爱了：")
-    st.markdown(f"<div class='big-number'>{days_together} 天</div>", unsafe_allow_html=True)
-    st.markdown("---")
-    st.write("Database Version: 100-Quotes-Update")
-
-# --- 百句情话 ---
-love_quotes = [
-    "今天的你也比全糖奶茶还要甜。🥤",
-    "想和你去吃火锅，现在，立刻，马上。🍲",
-    "你的笑容是我代码里唯一的 Bug。🐛",
-    "Error 404：找不到不喜欢你的理由。🚫",
-    "你就是我的 import favorite。💻",
-    "今天天气很好，但也比不上见到你。☀️",
-    "遇见你，是所有算法里最优的解。❤️",
-    "你一出现，我的世界就自动高亮了。✨",
-    "如果思念有颜色，那一定是你的样子。🎨",
-    "我的快乐函数，参数只有你。😊",
-    # 可以扩展到100条
-]
-
-# --- 主界面 ---
-random.seed(today.toordinal())
-quote = random.choice(love_quotes)
-
-st.markdown(f"""
-<div class="card">
-    <h1>早上好！我的专属 VIP ☀️</h1>
-    <p class="quote">💌 今日情话：{quote}</p>
+<div class="sidebar">
+    <img src="https://cdn-icons-png.flaticon.com/512/3237/3237472.png" width="100">
+    <h2>💑 关于我们</h2>
+    <p>我们已经相爱了：</p>
+    <div class="big-number" id="daysTogether"></div>
 </div>
-""", unsafe_allow_html=True)
 
-# --- 心情反馈 ---
-st.markdown('<div class="card mood">', unsafe_allow_html=True)
-mood = st.radio("你今天心情如何？", ["开心 😄", "一般 😐", "想你 🥺", "生气 😠"], index=0, label_visibility="collapsed")
+<div class="card">
+    <h2>💌 今日份甜份补给</h2>
+    <p id="dailyQuote" style="font-size:24px; color:#FF6B6B; font-weight:bold;"></p>
+</div>
 
-if st.button("告诉他", type="secondary"):
-    if mood == "开心 😄":
-        st.success("太棒了！要把这份开心保持一整天哦！")
-        st.snow()
-    elif mood == "一般 😐":
-        st.info("抱抱！晚上带你去吃好吃的提提神！")
-    elif mood == "想你 🥺":
-        st.warning("我也是！正在飞奔向你的路上（精神上）！🏃‍♂️")
-    elif mood == "生气 😠":
-        st.error("警报！警报！正在启动「哄人模式」... 对不起我错啦！😭")
-st.markdown('</div>', unsafe_allow_html=True)
+<div class="card">
+    <h2>🤔 你今天心情怎么样？</h2>
+    <div>
+        <button onclick="showMood('开心 😄')">开心 😄</button>
+        <button onclick="showMood('一般 😐')">一般 😐</button>
+        <button onclick="showMood('想你 🥺')">想你 🥺</button>
+        <button onclick="showMood('生气 😠')">生气 😠</button>
+    </div>
+    <p id="moodResult" style="margin-top:15px; font-size:18px;"></p>
+</div>
 
-# --- 彩蛋 ---
-st.markdown("---")
-with st.expander("🔐 只有你能打开的秘密通道"):
-    secret_code = st.text_input("请输入暗号：", type="password")
-    if secret_code == "520":
-        st.success("暗号正确！解锁隐藏惊喜！")
-        st.image("https://images.unsplash.com/photo-1607698201221-89f1c8174a8d?auto=format&fit=crop&w=800&q=80",
-                 caption="这是我们可爱的合照！")
-    elif secret_code:
-        st.error("暗号错误，是不是不爱我了？😤")
+<div class="card">
+    <h2>🔐 只有你能打开的秘密通道</h2>
+    <input type="password" id="secretInput" placeholder="请输入暗号">
+    <button onclick="checkSecret()">解锁</button>
+    <div id="secretResult"></div>
+</div>
 
-# --- 底部 ---
-st.markdown("<div class='footer'>Developed with Python & Streamlit 🐍</div>", unsafe_allow_html=True)
+<div class="footer">Developed with HTML, CSS & JS 🐍</div>
+
+<script>
+    // --- 纪念日天数 ---
+    const startDate = new Date(2023, 4, 20); // 月份0开始，所以5月是4
+    const today = new Date();
+    const diffTime = today - startDate;
+    const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+    document.getElementById('daysTogether').innerText = diffDays + " 天";
+
+    // --- 百句情话 ---
+    const loveQuotes = [
+        1. 今天的你也比全糖奶茶还要甜。🥤
+        2. 想和你去吃火锅，现在，立刻，马上。🍲
+        3. 你的笑容是我代码里唯一的 Bug。🐛
+        4. Error 404：找不到不喜欢你的理由。🚫
+        5. 你就是我的 import favorite。💻
+        6. 今天天气很好，但也比不上见到你。☀️
+        7. 遇见你，是所有算法里最优的解。❤️
+        8. 你一出现，我的世界就自动高亮了。✨
+        9. 如果思念有颜色，那一定是你的样子。🎨
+        10. 我的快乐函数，参数只有你。😊
+        
+        11. 想把你写进 README，一眼就能看到。📘
+        12. 你是我每天都想运行的程序。▶️
+        13. 没有你，生活就像少了分号。；
+        14. 世界那么大，我却只想和你并肩走。🌍
+        15. 你一笑，我的 CPU 就开始过热。🔥
+        16. 心跳的节奏，刚好和你同步。💓
+        17. 如果爱有版本号，你永远是最新稳定版。📦
+        18. 你出现的那天，我的人生成功编译。✔️
+        19. 和你在一起，连时间都变温柔了。⏰
+        20. 今天的风，也偷偷学你温柔。🍃
+        
+        21. 想把所有的温柔都留给你。🌸
+        22. 你是我每天都想点击的那个链接。🔗
+        23. 我的世界，因为你而不再空指针。🧡
+        24. 喜欢你，是我最坚定的长期任务。📌
+        25. 你一靠近，我就自动心动。💗
+        26. 世界再吵，想到你就安静了。🌙
+        27. 你是我生活里的小确幸。🍀
+        28. 如果星星会说话，它们也会夸你。⭐
+        29. 今天的好心情，是你赞助的。🎁
+        30. 你在，我就满格电量。🔋
+        
+        31. 你是我计划外的惊喜。🎉
+        32. 想把日子过成和你有关的样子。📆
+        33. 你出现的概率，比奇迹还高。🔢
+        34. 世界很复杂，但喜欢你很简单。🧩
+        35. 我的理想生活，有你参与。🏡
+        36. 今天也在偷偷想你。🤍
+        37. 你一眨眼，我就乱了心跳。😉
+        38. 喜欢你这件事，没有撤回键。🔒
+        39. 你是我最偏爱的选项。✅
+        40. 连夜晚，都在为你亮灯。💡
+        
+        41. 和你在一起，连空气都是甜的。🍬
+        42. 你是我生活里的隐藏彩蛋。🥚
+        43. 想把烦恼都交给你抱走。🧸
+        44. 有你的地方，就是主页面。🏠
+        45. 你一出现，我就自动微笑。🙂
+        46. 喜欢你，不需要理由说明。📄
+        47. 我的世界，因为你而有意义。🌈
+        48. 你是我每天最期待的消息。📩
+        49. 想和你一起浪费时间。⏳
+        50. 你让平凡的日子发光。✨
+        
+        51. 如果爱是代码，你是核心逻辑。🧠
+        52. 今天也在为你心动。💘
+        53. 世界再大，也装不下我对你的喜欢。🌍
+        54. 你是我唯一不想关闭的窗口。🪟
+        55. 想和你一起看很多很多日落。🌇
+        56. 你一笑，世界就变亮了。💫
+        57. 喜欢你，是每天的固定流程。🔁
+        58. 你是我生活里的温柔变量。🎈
+        59. 和你在一起，时间过得特别快。⏩
+        60. 你是我最想分享的人。📤
+        
+        61. 我的快乐，被你成功调用。📞
+        62. 想把未来写成和你有关的故事。📖
+        63. 你是我最安心的存在。🫶
+        64. 喜欢你，是我最正确的选择。✔️
+        65. 今天的心情，被你点亮。💡
+        66. 你一靠近，我就开始期待明天。🌅
+        67. 和你在一起，世界刚刚好。🌍
+        68. 你是我生活里的光。🌟
+        69. 想把温柔都存进你怀里。🤍
+        70. 你让日常变得值得记录。📝
+        
+        71. 你是我不想删除的历史记录。🕰️
+        72. 喜欢你，像呼吸一样自然。🌬️
+        73. 今天的快乐，来源是你。😊
+        74. 你是我生活里的高光时刻。🎬
+        75. 世界很忙，但我会为你停一下。⏸️
+        76. 想把所有好天气都留给你。☀️
+        77. 你一出现，烦恼就下线了。🚪
+        78. 喜欢你，是我的默认设置。⚙️
+        79. 你是我心里最亮的那颗星。⭐
+        80. 和你在一起，一切都值得。💞
+        
+        81. 你是我每天的小期待。🎀
+        82. 想和你一起慢慢变老。🕊️
+        83. 你让世界变得柔软。🧸
+        84. 我的好心情，因你而生。🌱
+        85. 喜欢你，没有暂停键。▶️
+        86. 你是我生活里的惊喜更新。🔄
+        87. 想和你一起吃很多顿饭。🍜
+        88. 你是我最想奔赴的方向。🧭
+        89. 今天也想对你温柔一点。🌷
+        90. 你让平凡的一天变得特别。✨
+        
+        91. 我的世界，因为你而完整。🧩
+        92. 喜欢你，是长期有效的计划。📅
+        93. 你是我心里的小太阳。🌞
+        94. 和你在一起，我很安心。🤍
+        95. 你是我生活里的小奇迹。✨
+        96. 今天的快乐，也有你一份。🎈
+        97. 想把所有美好都和你分享。🎁
+        98. 你是我最不想跳过的章节。📖
+        99. 喜欢你，是我最浪漫的坚持。💗
+        100. 有你在，世界就很好。🌍
+
+    ];
+
+    // --- 每日随机情话（固定每日一句） ---
+    const seed = today.getFullYear()*10000 + (today.getMonth()+1)*100 + today.getDate();
+    function seededRandom(seed) {
+        const x = Math.sin(seed) * 10000;
+        return x - Math.floor(x);
+    }
+    const quoteIndex = Math.floor(seededRandom(seed) * loveQuotes.length);
+    document.getElementById('dailyQuote').innerText = loveQuotes[quoteIndex];
+
+    // --- 心情反馈 ---
+    function showMood(mood) {
+        let message = "";
+        if (mood === "开心 😄") message = "太棒了！要把这份开心保持一整天哦！";
+        else if (mood === "一般 😐") message = "抱抱！晚上带你去吃好吃的提提神！";
+        else if (mood === "想你 🥺") message = "我也是！正在飞奔向你的路上（精神上）！🏃‍♂️";
+        else if (mood === "生气 😠") message = "警报！警报！正在启动「哄人模式」... 对不起我错啦！😭";
+        document.getElementById('moodResult').innerText = message;
+    }
+
+    // --- 彩蛋 ---
+    function checkSecret() {
+        const secret = document.getElementById('secretInput').value;
+        const resultDiv = document.getElementById('secretResult');
+        if (secret === "520") {
+            resultDiv.innerHTML = "<p style='color:green;'>暗号正确！解锁隐藏惊喜！</p><img class='hidden-img' src='https://images.unsplash.com/photo-1518199266791-5375a83190b7' alt='合照'>";
+        } else {
+            resultDiv.innerHTML = "<p style='color:red;'>暗号错误，是不是不爱我了？😤</p>";
+        }
+    }
+</script>
+
+</body>
+</html>
